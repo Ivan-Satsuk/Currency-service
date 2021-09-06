@@ -25,7 +25,6 @@ public class CurrencyServiceTest {
     CurrencyService currencyService;
 
 
-
     @ParameterizedTest
     @ValueSource(strings = {"74.00", "75.00", "76.00"})
     public void makeAnswerForRequestTest(String rate){

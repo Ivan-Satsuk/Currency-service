@@ -17,6 +17,5 @@ public class CurrencyController {
     @GetMapping("/{currencyCode}")
     public String chekRate(@PathVariable(name = "currencyCode") String currencyCode){
         return currencyService.makeAnswerForRequest(currencyCode);
-
     }
 }

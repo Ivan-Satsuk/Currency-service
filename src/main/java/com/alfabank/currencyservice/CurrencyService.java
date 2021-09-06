@@ -32,17 +32,12 @@ public class CurrencyService {
     }
 
     public String makeAnswerForRequest(String currencyCode) {
-
-        //проверка того, что переданный код является кодом одной из валют
+        // check that the passed code is one of the currencies
         Currency currency = Currency.getInstance(currencyCode.toUpperCase(Locale.ROOT));
         String rateCurrency = currency.getCurrencyCode();
 
         CurrencyModelDTO previousDaysRate = getPreviousDayRate(rateCurrency);
         CurrencyModelDTO latestRate = getLatestRate(rateCurrency);
-
-        System.out.println(latestRate.getRates());
-        System.out.println("-2: "+previousDaysRate);
-
 
         if ((latestRate.getCurrentCurrencyRate(rateCurrency).compareTo(previousDaysRate.getCurrentCurrencyRate(rateCurrency)) < 0))
             return getGifUrl("rich");
@@ -51,11 +46,7 @@ public class CurrencyService {
     }
 
     private CurrencyModelDTO getPreviousDayRate(String rateCurrency) {
-        String yest = LocalDate.now(Clock.systemUTC()).minusDays(1).toString();
-        CurrencyModelDTO test = openExchangeRatesClient.getPreviousDayRate(yest, idExchangeRatesApi, baseCurrency, rateCurrency);
-        System.out.println("-1: "+test.getRates()+" "+yest);
-        String previousDate = LocalDate.now(Clock.systemUTC()).minusDays(2).toString();
-        System.out.println(previousDate+" -2");
+        String previousDate = LocalDate.now(Clock.systemUTC()).minusDays(1).toString();
         return openExchangeRatesClient.getPreviousDayRate(previousDate, idExchangeRatesApi, baseCurrency, rateCurrency);
     }
 
@@ -64,7 +55,7 @@ public class CurrencyService {
     }
 
     private String getGifUrl(String tag) {
-        GiphyRootDTO giphyRootDTO = giphyApiClient.getGif(giphyApiKey, "rich");
+        GiphyRootDTO giphyRootDTO = giphyApiClient.getGif(giphyApiKey, tag);
         DataDTO dataDTO = giphyRootDTO.getDataDTO();
         ImagesDTO images = dataDTO.getImages();
         FixedHeightGifDTO fixedHeightGifDTO = images.getFixed_height();
